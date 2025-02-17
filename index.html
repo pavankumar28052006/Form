@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .error{display:none;color:#ff0000;}
+    </style>
+</head>
+<body>
+    <h2>Registration Form</h2>
+    <form id="registrationForm" onsubmit="return validateForm(event)">
+        <label>Name:<input type="text" id="name" required></label>
+        <span class="error" id="nameError">Invalid Name</span><br>
+        <label>Age:<input type="number" id="age" required></label>
+        <span class="error" id="ageError">18-60 only</span><br>
+        <label>Email:<input type="email" id="email" required></label>
+        <span class="error" id="emailError">Invalid Email</span><br>
+        <label>PIN:<input type="text" id="pin" required></label>
+        <span class="error" id="pinError">6 digits only</span><br>
+        <label>Password:<input type="password" id="password" required></label>
+        <span class="error" id="passwordError">Weak Password</span><br>
+        <button type="submit">Register</button>
+    </form>
+    <script>
+        function validateForm(e) {
+            e.preventDefault(); let v = true;
+            document.querySelectorAll('.error').forEach(e => e.style.display = 'none');
+            const f = [
+                [/^[A-Za-z\s]+$/, 'name', 'nameError'],
+                [/^(1[89]|[2-5]\d|60)$/, 'age', 'ageError'],
+                [/^\S+@\S+\.\S+$/, 'email', 'emailError'],
+                [/^\d{6}$/, 'pin', 'pinError'],
+                [/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/, 'password', 'passwordError']
+            ];
+            f.forEach(([r, i, e]) => {if (!r.test(document.getElementById(i).value)) (v = false, document.getElementById(e).style.display = 'block');});
+            if (v) alert('Form submitted!'), document.getElementById('registrationForm').reset();
+            return v;
+        }
+    </script>
+</body>
+</html>
